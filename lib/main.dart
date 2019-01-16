@@ -9,13 +9,32 @@ class Utils {
   static const Color googleGreen = Color.fromRGBO(22, 157, 85, 1.0);
   static const Color googleYellow = Color.fromRGBO(250, 200, 67, 1.0);
 }
-class SplashPage extends StatelessWidget {
-@override
+
+class SplashPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return SplashPageStateful();
+  }
+}
+
+class SplashPageStateful extends State<SplashPage> with SingleTickerProviderStateMixin {
+
+  AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 2000));
+    animationController.repeat();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     Timer.run(() {
-      new Timer(new Duration(days: 0, hours: 0, minutes: 0, seconds: 2, microseconds: 0, milliseconds: 0), () {
-        
+      new Timer(new Duration(days: 0, hours: 0, minutes: 0, seconds: 3, microseconds: 0, milliseconds: 0), () {
+        animationController.dispose();
         Navigator.push(context, 
           MaterialPageRoute(
             builder: (context) => HomePage()));
@@ -34,20 +53,62 @@ class SplashPage extends StatelessWidget {
                 Image.asset('assets/gdg_logo.png', width: 120.0),
                 Padding(padding: EdgeInsets.only(top: 10),
                   child: Image.asset('assets/gdg_just_text.png', width: 150.0)),
-                Padding(padding: EdgeInsets.only(top: 40.0),
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.grey[300]),
-                    strokeWidth: 5.0
-                    ),),
+                RotationTransition(
+                  alignment: Alignment.center,
+                  turns: new Tween(begin: 0.0, end: 1.0).animate(animationController),
+                  child: Padding(
+                      padding: EdgeInsets.all(30),
+                      child: Container(
+                      width: 75, height: 75,
+                      child: Stack(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              width: 20, height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Utils.googleBlue
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              width: 20, height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Utils.googleYellow
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 20, height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Utils.googleGreen
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              width: 20, height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Utils.googleRed
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                    )
+              )
               ],
             ),
-          ),
-          Align(
-            child: Padding(
-              child: Image.asset('assets/gdg_just_tech.png'),
-              padding: EdgeInsets.only(bottom: 40, left: 80, right: 80),
-            ),
-            alignment: Alignment.bottomCenter,
           )
         ],
       ),
@@ -83,38 +144,101 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.date_range, color: Utils.googleRed, size: 40),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Upcoming Events',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Utils.googleRed,
-                              fontWeight: FontWeight.bold
-                            )
+            Padding(
+              padding: EdgeInsets.only(left: 70),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.date_range, color: Utils.googleRed, size: 40),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Upcoming Events',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Utils.googleRed,
+                                  fontWeight: FontWeight.bold
+                                )
+                              ),
+                              Text('3 Events',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.grey
+                                )
+                              )
+                            ],
                           ),
-                          Text('3 Events',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey
-                            )
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.group, color: Utils.googleBlue, size: 40),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Members',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Utils.googleBlue,
+                                  fontWeight: FontWeight.bold
+                                )
+                              ),
+                              Text('52 Members',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.grey
+                                )
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.group, color: Utils.googleGreen, size: 40),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Resources',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Utils.googleGreen,
+                                  fontWeight: FontWeight.bold
+                                )
+                              ),
+                              Text('42 Links',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.grey
+                                )
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
             ),
             Opacity(
               opacity: 0.3,
