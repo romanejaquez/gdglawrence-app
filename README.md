@@ -1,6 +1,6 @@
 # gdg_lawrence
 
-A new Flutter project.
+GDG Lawrence Mobile App, developed in Flutter
 
 ## Getting Started
 
