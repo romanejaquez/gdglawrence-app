@@ -1,4 +1,4 @@
-# gdg_lawrence
+# GDG Lawrence Mobile
 
 GDG Lawrence Mobile App, developed in Flutter
 
