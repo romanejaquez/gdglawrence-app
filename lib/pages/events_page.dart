@@ -16,6 +16,7 @@ class EventsPageState extends State<EventsPage> {
 
   List<EventModel> events;
   List<Widget> eventWidgets;
+  List<Widget> pastEventWidgets = List<Widget>();
 
   @override
   void initState() {
@@ -56,6 +57,27 @@ class EventsPageState extends State<EventsPage> {
             children: <Widget>[
               ListView(
                 children: eventWidgets
+              ),
+              ListView(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(50),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Icon(Icons.date_range, color: Colors.grey),
+                          ),
+                          Text("No Upcoming Events",
+                            style: TextStyle(color: Colors.grey)
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ]
               )
             ],
           ) : Center(

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
+import 'package:gdg_lawrence/models/member_model.dart';
 import 'package:gdg_lawrence/models/menuitem_model.dart';
 import 'package:gdg_lawrence/pages/events_page.dart';
 import 'package:gdg_lawrence/pages/home_page.dart';
@@ -11,6 +12,43 @@ import 'package:gdg_lawrence/shared/utils.dart';
 
 class Factory {
 
+  static Widget getMemberWidget(MemberModel member) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          children: <Widget>[
+            ClipOval(
+              child: Container(
+                color: Colors.grey[300],
+                width: 80,
+                height: 80,
+                child: Image.network(member.photo)
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(member.name,
+                    style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)
+                  ),
+                  Text(member.role,
+                    style: TextStyle(color: Colors.grey)
+                  ),
+                  Text("${member.city} ${member.city} (${member.country})",
+                    style: TextStyle(color: Utils.googleBlue)
+                  )
+                ],
+              )
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   static Widget getEventWidget(EventModel event) {
 

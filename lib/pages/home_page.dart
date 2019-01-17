@@ -7,7 +7,21 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.all(30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 30, bottom: 30),
+                child: Image.asset('assets/gdg_just_text.png', width: 100),
+              )
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.grey),
         backgroundColor: Colors.white,
