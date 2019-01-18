@@ -106,9 +106,9 @@ class Repository {
     menuItems.add(
       MenuItemModel(
         menuColor: Utils.googleYellow,
-        menuIcon: Icons.notification_important,
-        subLabel: "10 Notifications",
-        menuLabel: "Notifications",
+        menuIcon: Icons.record_voice_over,
+        subLabel: "10 Podcasts Posted",
+        menuLabel: "Mini Podcasts",
         pageRef: PageTypes.Notifications
       )
     );

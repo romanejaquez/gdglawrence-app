@@ -38,7 +38,7 @@ class Factory {
                   Text(member.role,
                     style: TextStyle(color: Colors.grey)
                   ),
-                  Text("${member.city} ${member.city} (${member.country})",
+                  Text("${member.city} ${member.state} (${member.country})",
                     style: TextStyle(color: Utils.googleBlue)
                   )
                 ],
