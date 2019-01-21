@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/models/member_model.dart';
 import 'package:gdg_lawrence/models/menuitem_model.dart';
+import 'package:gdg_lawrence/models/podcast_model.dart';
 import 'package:gdg_lawrence/pages/events_page.dart';
 import 'package:gdg_lawrence/pages/home_page.dart';
 import 'package:gdg_lawrence/pages/members_page.dart';
@@ -50,6 +52,55 @@ class Factory {
     );
   }
 
+  static Widget getPodcastRowWidget(PodcastModel podcast, Function selectedPodcastFunc) {
+    return GestureDetector(
+      onTap: () {
+        selectedPodcastFunc(podcast);
+      },
+      child: Container(
+        padding: EdgeInsets.all(5),
+        child: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.6),
+            borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left:10, right: 10, bottom: 0),
+                child: Icon(Icons.record_voice_over, color: Colors.white, size: 40)
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(podcast.name,
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
+                      ),
+                      Text(podcast.duration,
+                        style: TextStyle(color: Colors.white, fontSize: 10)
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20, right: 20, bottom: 0),
+                child: Icon(Icons.graphic_eq, size: 30, color: Colors.white),
+              )
+            ],
+          ),
+        ),
+      )
+    );
+  }
+
   static Widget getEventWidget(EventModel event) {
 
     return InkWell(
@@ -76,10 +127,10 @@ class Factory {
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
-                  Text(event.eventDate,
+                  Text(DateFormat.yMMMd('en_US').format(DateTime.parse(event.eventDate)),
                     style: TextStyle(color: Colors.grey)
                   ),
-                  Text(event.eventTime,
+                  Text(DateFormat.jm().format(DateTime.parse(event.eventDate + ' ' + event.eventTime)),
                     style: TextStyle(color: Colors.grey)
                   ),
                   Text("${event.attendeeCount} people going",

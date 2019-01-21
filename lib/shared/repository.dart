@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/models/member_model.dart';
 import 'package:gdg_lawrence/models/menuitem_model.dart';
+import 'package:gdg_lawrence/models/podcast_model.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,6 +32,17 @@ class Repository {
     allMembers = createMembers(responseJSON);
 
     return allMembers;
+  }
+
+  static Future<List<PodcastModel>> getAllPodcasts() async {
+
+    var allPodcasts = List<PodcastModel>();
+    var url = 'http://api.drcoderz.com/flutter/gdglawrence/minipodcasts/podcasts.php';
+    var response = await http.get(url);
+    List responseJSON = jsonDecode(response.body);
+    allPodcasts = createPodcasts(responseJSON);
+
+    return allPodcasts;
   }
 
   static List<MemberModel> createMembers(List data) {
@@ -64,6 +76,29 @@ class Repository {
           attendeeCount: data[i]["yes_rsvp_count"].toString()
         )
       );
+    }
+
+    return events;
+  }
+
+  static List<PodcastModel> createPodcasts(List data) {
+    var events = List<PodcastModel>();
+
+    for(var f = 0; f < data.length; f++) {
+      var jsonPodcasts = data[f]["Podcasts"];
+
+      for(var i = 0; i < jsonPodcasts.length; i++) {
+        events.add(
+          PodcastModel(
+            name: jsonPodcasts[i]["Name"],
+            path: jsonPodcasts[i]["Path"],
+            durationInSeconds: jsonPodcasts[i]["DurationInSeconds"],
+            duration: jsonPodcasts[i]["Duration"],
+            id: jsonPodcasts[i]["Id"],
+            index: jsonPodcasts[i]["Index"]
+          )
+        );
+      }
     }
 
     return events;

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
+import 'package:gdg_lawrence/models/member_model.dart';
 import 'package:gdg_lawrence/shared/factory.dart';
 import 'package:gdg_lawrence/shared/repository.dart';
 

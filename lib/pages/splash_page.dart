@@ -28,7 +28,7 @@ class SplashPage extends StatelessWidget {
                   child: Image.asset('assets/gdg_just_text.png', width: 150.0)
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 50),
                   child: SpinningControl(
                     color1: Utils.googleBlue,
                     color2: Utils.googleGreen,
