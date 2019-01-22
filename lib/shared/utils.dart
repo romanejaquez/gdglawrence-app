@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
+import 'package:gdg_lawrence/models/homescreen_model.dart';
 import 'package:gdg_lawrence/models/member_model.dart';
 import 'package:gdg_lawrence/shared/factory.dart';
 import 'package:gdg_lawrence/shared/repository.dart';
@@ -12,8 +13,8 @@ class Utils {
   static const Color googleGreen = Color.fromRGBO(22, 157, 85, 1.0);
   static const Color googleYellow = Color.fromRGBO(250, 200, 67, 1.0);
 
-  static List<Widget> getAllMenus(BuildContext context) {
-    return Repository.getMenuItemModels().map((m) => Factory.getMenuItemWidget(context, m)).toList();
+  static List<Widget> getAllMenus(BuildContext context, HomeScreenModel data) {
+    return Repository.getMenuItemModels(data).map((m) => Factory.getMenuItemWidget(context, m)).toList();
   }
 
   static List<Widget> getAllEventWidgets(BuildContext context, List<EventModel> events) {

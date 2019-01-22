@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/controls/spinning_control.dart';
+import 'package:gdg_lawrence/models/homescreen_model.dart';
 import 'package:gdg_lawrence/pages/home_page.dart';
+import 'package:gdg_lawrence/shared/repository.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 
 class SplashPage extends StatelessWidget {
@@ -8,10 +10,13 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      Navigator.push(context, 
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      
+      Repository.getHomeScreenData().then((HomeScreenModel homeData) {
+        Navigator.push(context, 
           MaterialPageRoute(
-            builder: (context) => HomePage()));
+            builder: (context) => HomePage(data: homeData)));
+      });
     });
 
     return new Scaffold(

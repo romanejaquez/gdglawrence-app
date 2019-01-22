@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gdg_lawrence/models/homescreen_model.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 
 class HomePage extends StatelessWidget {
   
+  HomeScreenModel data;
+  HomePage({this.data});
+
   @override
   Widget build(BuildContext context) {
     
@@ -48,7 +52,7 @@ class HomePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: Utils.getAllMenus(context),
+                children: Utils.getAllMenus(context, data),
               )
             ),
             Opacity(

@@ -41,14 +41,7 @@ class MembersPageState extends State<MembersPage> {
         elevation: 0.0,
       ),
       body: Container(
-        color: Utils.googleBlue,
-        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
         child: Container(
-          padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))
-          ),
           child: members != null ? ListView(
             children: memberWidgets,
           ) : Center(

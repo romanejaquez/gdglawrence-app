@@ -2,15 +2,30 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
+import 'package:gdg_lawrence/models/homescreen_model.dart';
 import 'package:gdg_lawrence/models/member_model.dart';
 import 'package:gdg_lawrence/models/menuitem_model.dart';
 import 'package:gdg_lawrence/models/podcast_model.dart';
+import 'package:gdg_lawrence/models/resource_model.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 import 'package:http/http.dart' as http;
 
 class Repository {
   
   static const String API_KEY = '2554255606c801d137037537f31539';
+
+  static Future<HomeScreenModel> getHomeScreenData() async {
+
+    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getHomeScreenData';
+    var response = await http.get(url);
+    dynamic responseJSON = jsonDecode(response.body);
+    return HomeScreenModel(
+      eventsCount: responseJSON["events"],
+      podcastsCount: responseJSON["podcasts"],
+      membersCount: responseJSON["members"],
+      resourcesCount: responseJSON["resources"]
+    );
+  }
 
   static Future<List<EventModel>> getAllEvents() async {
 
@@ -21,6 +36,17 @@ class Repository {
     allEvents = createEvents(responseJSON);
 
     return allEvents;
+  }
+
+  static Future<List<ResourceModel>> getAllResources() async {
+
+    var allResources = List<ResourceModel>();
+    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getResources';
+    var response = await http.get(url);
+    List responseJSON = jsonDecode(response.body);
+    allResources = createResources(responseJSON);
+
+    return allResources;
   }
 
   static Future<List<MemberModel>> getAllMembers() async {
@@ -64,6 +90,23 @@ class Repository {
     return members;
   }
 
+  static List<ResourceModel> createResources(List data) {
+    var resources = List<ResourceModel>();
+
+    for(var i = 0; i < data.length; i++) {
+      resources.add(
+        ResourceModel(
+          title: data[i]["title"],
+          description: data[i]["description"],
+          link: data[i]["link"],
+          resourceType: data[i]["resourceType"],
+        )
+      );
+    }
+
+    return resources;
+  }
+
   static List<EventModel> createEvents(List data) {
     var events = List<EventModel>();
 
@@ -104,7 +147,7 @@ class Repository {
     return events;
   }
 
-  static List<MenuItemModel> getMenuItemModels() {
+  static List<MenuItemModel> getMenuItemModels(HomeScreenModel data) {
 
     var menuItems = List<MenuItemModel>();
 
@@ -112,7 +155,7 @@ class Repository {
       MenuItemModel(
         menuColor: Utils.googleRed,
         menuIcon: Icons.date_range,
-        subLabel: "3 Events",
+        subLabel: "${data.eventsCount} Events",
         menuLabel: "Upcoming / Past Events",
         pageRef: PageTypes.Events
       )
@@ -122,7 +165,7 @@ class Repository {
       MenuItemModel(
         menuColor: Utils.googleBlue,
         menuIcon: Icons.group,
-        subLabel: "52 Members",
+        subLabel: "${data.membersCount} Members",
         menuLabel: "Members",
         pageRef: PageTypes.Members
       )
@@ -132,7 +175,7 @@ class Repository {
       MenuItemModel(
         menuColor: Utils.googleGreen,
         menuIcon: Icons.build,
-        subLabel: "42 Links",
+        subLabel: "${data.resourcesCount} Links",
         menuLabel: "Resources",
         pageRef: PageTypes.Resources
       )
@@ -142,7 +185,7 @@ class Repository {
       MenuItemModel(
         menuColor: Utils.googleYellow,
         menuIcon: Icons.record_voice_over,
-        subLabel: "10 Podcasts Posted",
+        subLabel: "${data.podcastsCount} Podcasts Posted",
         menuLabel: "Mini Podcasts",
         pageRef: PageTypes.Notifications
       )

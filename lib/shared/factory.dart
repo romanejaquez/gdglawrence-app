@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:gdg_lawrence/models/resource_model.dart';
 import 'package:intl/intl.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/models/member_model.dart';
@@ -17,37 +18,84 @@ class Factory {
   static Widget getMemberWidget(MemberModel member) {
     return InkWell(
       onTap: () {},
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          children: <Widget>[
-            ClipOval(
-              child: Container(
-                color: Colors.grey[300],
-                width: 80,
-                height: 80,
-                child: Image.network(member.photo)
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(member.name,
-                    style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              children: <Widget>[
+                ClipOval(
+                  child: Container(
+                    color: Colors.grey[300],
+                    width: 80,
+                    height: 80,
+                    child: Image.network(member.photo)
                   ),
-                  Text(member.role,
-                    style: TextStyle(color: Colors.grey)
-                  ),
-                  Text("${member.city} ${member.state} (${member.country})",
-                    style: TextStyle(color: Utils.googleBlue)
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(member.name,
+                        style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)
+                      ),
+                      Text(member.role,
+                        style: TextStyle(color: Colors.grey)
+                      ),
+                      Text("${member.city} ${member.state} (${member.country})",
+                        style: TextStyle(color: Utils.googleBlue)
+                      )
+                    ],
                   )
-                ],
-              )
-            )
-          ],
-        ),
+                )
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.grey[300],
+            height: 1,
+          )
+        ],
+      ),
+    );
+  }
+
+  static Widget getResourceWidget(ResourceModel resource) {
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Icon(Icons.link, color: Utils.googleGreen),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(resource.title,
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
+                        ),
+                        Text(resource.description,
+                          style: TextStyle(color: Colors.black)
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.grey[300],
+            height: 1,
+          )
+        ],
       ),
     );
   }
