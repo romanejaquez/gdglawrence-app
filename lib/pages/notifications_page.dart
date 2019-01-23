@@ -42,7 +42,7 @@ class NotificationsPageState extends State<NotificationsPage> {
   NotificationsPageState() {
 
     listen = audioPlayer.onAudioPositionChanged.listen(onAudioPositionChanged);
-    pState = audioPlayer.onPlayerStateChanged.listen(onAudioPlayerStateChanged);
+    //pState = audioPlayer.onPlayerStateChanged.listen(onAudioPlayerStateChanged);
 
     Repository.getAllPodcasts().then((e) {
       setState(() {
@@ -112,7 +112,7 @@ class NotificationsPageState extends State<NotificationsPage> {
   Future<void> deactivate() async {
     await audioPlayer.stop();
     listen.cancel();
-    pState.cancel();
+    //pState.cancel();
     super.deactivate();
   }
 
@@ -180,17 +180,18 @@ class NotificationsPageState extends State<NotificationsPage> {
                                   activeColor: Colors.white,
                                   inactiveColor: Colors.white.withOpacity(0.2),
                                   onChanged: (val) {
-                                    setState(() {
+                                    /*setState(() {
                                         sliderPosition = val;                                  
-                                    });
+                                    });*/
                                   },
                                   onChangeStart: (val) {
-                                    audioPlayer.pause();
+                                    //audioPlayer.pause();
                                   },
                                   onChangeEnd: (val) {
-                                    isPlaying = true;
+                                    /*isPlaying = true;
                                     audioPlayer.seek(val);
                                     audioPlayer.play(selectedPodcast.path);
+                                    */
                                   },
                                   min: 0,
                                   max: maxSliderValue,
