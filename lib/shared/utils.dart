@@ -16,10 +16,6 @@ class Utils {
   static List<Widget> getAllMenus(BuildContext context, HomeScreenModel data) {
     return Repository.getMenuItemModels(data).map((m) => Factory.getMenuItemWidget(context, m)).toList();
   }
-
-  static List<Widget> getAllEventWidgets(BuildContext context, List<EventModel> events) {
-    return events.map((e) => Factory.getEventWidget(e));
-  }
 }
 
 enum PageTypes {

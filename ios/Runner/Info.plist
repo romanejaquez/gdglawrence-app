@@ -7,6 +7,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Adds GDG Events to your calendar.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

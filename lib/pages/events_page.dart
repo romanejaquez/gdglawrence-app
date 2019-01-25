@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/controls/spinning_control.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
+import 'package:gdg_lawrence/pages/event_details_page.dart';
 import 'package:gdg_lawrence/shared/factory.dart';
 import 'package:gdg_lawrence/shared/repository.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
@@ -28,12 +29,18 @@ class EventsPageState extends State<EventsPage> {
           eventWidgets = List<Widget>();
           
           for(var i = 0; i < events.length; i++) {
-            eventWidgets.add(Factory.getEventWidget(events[i]));
+            eventWidgets.add(Factory.getEventWidget(events[i], onSelectedEvent));
           }
       });
     });
   }
 
+  void onSelectedEvent(EventModel event) {
+    Navigator.push(context, 
+          MaterialPageRoute(
+            builder: (context) => EventDetailsPage(event: event)));
+  }
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

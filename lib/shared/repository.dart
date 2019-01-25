@@ -116,7 +116,15 @@ class Repository {
           eventName: data[i]["name"],
           eventDate: data[i]["local_date"],
           eventTime: data[i]["local_time"],
-          attendeeCount: data[i]["yes_rsvp_count"].toString()
+          attendeeCount: data[i]["yes_rsvp_count"].toString(),
+          isVenueAssigned: data[i]["venue"] != null,
+          venueName: data[i]["venue"] != null ? data[i]["venue"]["name"] : "",
+          venueAddress: data[i]["venue"] != null ? data[i]["venue"]["address_1"] : "",
+          venueCity: data[i]["venue"] != null ? data[i]["venue"]["city"] : "",
+          venueState: data[i]["venue"] != null ? data[i]["venue"]["state"] : "",
+          venueZip: data[i]["venue"] != null ? data[i]["venue"]["zip"] : "",
+          lat: data[i]["venue"] != null ? data[i]["venue"]["lat"] : 0.0,
+          long: data[i]["venue"] != null ? data[i]["venue"]["long"] : 0.0
         )
       );
     }

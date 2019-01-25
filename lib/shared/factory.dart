@@ -12,6 +12,7 @@ import 'package:gdg_lawrence/pages/members_page.dart';
 import 'package:gdg_lawrence/pages/notifications_page.dart';
 import 'package:gdg_lawrence/pages/resources_page.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
+import 'package:share/share.dart';
 
 class Factory {
 
@@ -63,7 +64,9 @@ class Factory {
 
   static Widget getResourceWidget(ResourceModel resource) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Share.share(resource.title + " - " + resource.link);
+      },
       child: Column(
         children: <Widget>[
           Container(
@@ -149,46 +152,59 @@ class Factory {
     );
   }
 
-  static Widget getEventWidget(EventModel event) {
+  static Widget getEventWidget(EventModel event, Function eventCallback) {
 
     return InkWell(
-      onTap: () {},
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.date_range, color: Utils.googleRed, size: 40),
+      onTap: () {
+        eventCallback(event);
+      },
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Container(
+                    width: 40,
+                    child: Image.asset('assets/meetup_logo.png'),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: 300,
+                        child: Text(event.eventName,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
+                      Text(DateFormat.yMMMd('en_US').format(DateTime.parse(event.eventDate)),
+                        style: TextStyle(color: Colors.grey)
+                      ),
+                      Text(DateFormat.jm().format(DateTime.parse(event.eventDate + ' ' + event.eventTime)),
+                        style: TextStyle(color: Colors.grey)
+                      ),
+                      Text("${event.attendeeCount} people going",
+                        style: TextStyle(color: Utils.googleRed)
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: 300,
-                    child: Text(event.eventName,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                  ),
-                  Text(DateFormat.yMMMd('en_US').format(DateTime.parse(event.eventDate)),
-                    style: TextStyle(color: Colors.grey)
-                  ),
-                  Text(DateFormat.jm().format(DateTime.parse(event.eventDate + ' ' + event.eventTime)),
-                    style: TextStyle(color: Colors.grey)
-                  ),
-                  Text("${event.attendeeCount} people going",
-                    style: TextStyle(color: Utils.googleRed)
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
+          ),
+          Divider(
+            color: Colors.grey[300],
+            height: 1,
+          )
+        ],
       ),
     );
   }

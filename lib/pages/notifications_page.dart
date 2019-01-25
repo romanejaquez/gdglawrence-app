@@ -22,6 +22,8 @@ class NotificationsPageState extends State<NotificationsPage> {
   String podcastDuration = '--:--';
   String countdownDuration = '--:--';
   String podcastName = "----";
+  String podcastPath = '';
+
 
   AudioPlayer audioPlayer = new AudioPlayer();
   bool isPlaying = false;
@@ -80,6 +82,9 @@ class NotificationsPageState extends State<NotificationsPage> {
 
   Future<void> onSelectedPodcast(PodcastModel p) async {
     await audioPlayer.stop();
+    listen.cancel();
+    audioPlayer = AudioPlayer();
+    listen = audioPlayer.onAudioPositionChanged.listen(onAudioPositionChanged);
     
     setState(() {
       
@@ -92,7 +97,8 @@ class NotificationsPageState extends State<NotificationsPage> {
       selectedPodcast = p;
       podcastDuration = DateFormat.Hms().format(DateTime(0,0,0,0,0,0,0,0));
       countdownDuration = timeFormat;  
-      podcastName = p.name;
+      podcastName = selectedPodcast.name;
+      podcastPath = selectedPodcast.path;
       maxSliderValue = p.durationInSeconds.toDouble();
     });
   }
@@ -101,7 +107,10 @@ class NotificationsPageState extends State<NotificationsPage> {
     isPlaying = !isPlaying;
 
     if (isPlaying) {
-      await audioPlayer.play(selectedPodcast.path);
+      await audioPlayer.pause();
+      await audioPlayer.play(podcastPath);
+      await audioPlayer.pause();
+      await audioPlayer.play(podcastPath);
     }
     else {
       await audioPlayer.pause();

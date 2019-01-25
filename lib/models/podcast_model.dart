@@ -1,3 +1,5 @@
+import 'package:audioplayer/audioplayer.dart';
+
 class PodcastModel {
   String name;
   String path;
@@ -5,6 +7,7 @@ class PodcastModel {
   int index;
   int durationInSeconds;
   String duration;
+  AudioPlayer player;
 
   PodcastModel(
     {
@@ -13,7 +16,8 @@ class PodcastModel {
       this.path,
       this.id,
       this.durationInSeconds,
-      this.duration
+      this.duration,
+      this.player
     }
   );
 }
