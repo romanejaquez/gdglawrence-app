@@ -4,6 +4,7 @@ import 'package:gdg_lawrence/models/resource_model.dart';
 import 'package:gdg_lawrence/shared/factory.dart';
 import 'package:gdg_lawrence/shared/repository.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ResourcesPage extends StatefulWidget {
   @override
@@ -27,11 +28,16 @@ class ResourcesPageState extends State<ResourcesPage> {
           resourceWidgets = List<Widget>();
           
           for(var i = 0; i < resources.length; i++) {
-            resourceWidgets.add(Factory.getResourceWidget(resources[i]));
+            resourceWidgets.add(Factory.getResourceWidget(resources[i], onSelectedResource));
           }
       });
     });
   }
+
+  void onSelectedResource(ResourceModel resource) async {
+    await launch(resource.link);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

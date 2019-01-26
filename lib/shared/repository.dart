@@ -124,7 +124,8 @@ class Repository {
           venueState: data[i]["venue"] != null ? data[i]["venue"]["state"] : "",
           venueZip: data[i]["venue"] != null ? data[i]["venue"]["zip"] : "",
           lat: data[i]["venue"] != null ? data[i]["venue"]["lat"] : 0.0,
-          long: data[i]["venue"] != null ? data[i]["venue"]["long"] : 0.0
+          long: data[i]["venue"] != null ? data[i]["venue"]["long"] : 0.0,
+          link: data[i]["link"]
         )
       );
     }

@@ -8,6 +8,7 @@ class EventModel {
   String venueCity;
   String venueState;
   String venueZip;
+  String link;
   bool isVenueAssigned;
   double lat;
   double long;
@@ -24,6 +25,7 @@ class EventModel {
     this.venueZip,
     this.isVenueAssigned,
     this.lat,
-    this.long
+    this.long,
+    this.link
   });
 }

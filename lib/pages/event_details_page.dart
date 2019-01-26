@@ -4,6 +4,8 @@ import 'package:gdg_lawrence/shared/utils.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
 
 class EventDetailsPage extends StatefulWidget {
   EventModel event;
@@ -43,6 +45,13 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Utils.googleRed,
+        child: Icon(Icons.share, color: Colors.white),
+        onPressed: () {
+          Share.share(event.link);
+        },
+      ),
       appBar: AppBar(
         title: Text('Event Details'),
         backgroundColor: Utils.googleRed,
@@ -132,16 +141,16 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(right: 10),
-                        child: Icon(Icons.date_range, color: Colors.white)
+                        child: Image.asset('assets/meetup_logo_white.png', width: 40, height: 40)
                       ),
-                      Text("Add to Calendar",
+                      Text("Go to Meetup Page To Register",
                         style: TextStyle(color: Colors.white),
                       )
                     ],
                   ),
                 ),
-                onPressed: () {
-                  // implement adding to calendar here
+                onPressed: () async {
+                  await launch(event.link);
                 },
               ),
             )

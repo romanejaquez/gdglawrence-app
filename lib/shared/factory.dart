@@ -12,7 +12,6 @@ import 'package:gdg_lawrence/pages/members_page.dart';
 import 'package:gdg_lawrence/pages/notifications_page.dart';
 import 'package:gdg_lawrence/pages/resources_page.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
-import 'package:share/share.dart';
 
 class Factory {
 
@@ -62,10 +61,10 @@ class Factory {
     );
   }
 
-  static Widget getResourceWidget(ResourceModel resource) {
+  static Widget getResourceWidget(ResourceModel resource, Function onSelectedResource) {
     return InkWell(
       onTap: () {
-        Share.share(resource.title + " - " + resource.link);
+        onSelectedResource(resource);
       },
       child: Column(
         children: <Widget>[
