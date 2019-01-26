@@ -49,7 +49,7 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
       ),
       body: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -119,6 +119,30 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
                     )
                   ),
                 ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: RaisedButton(
+                color: Utils.googleRed,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Icon(Icons.date_range, color: Colors.white)
+                      ),
+                      Text("Add to Calendar",
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                ),
+                onPressed: () {
+                  // implement adding to calendar here
+                },
               ),
             )
           ],

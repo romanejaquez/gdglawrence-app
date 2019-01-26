@@ -6,7 +6,8 @@ import 'package:gdg_lawrence/models/podcast_model.dart';
 import 'package:gdg_lawrence/shared/factory.dart';
 import 'package:gdg_lawrence/shared/repository.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
-import 'package:audioplayer/audioplayer.dart';
+//import 'package:audioplayer/audioplayer.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class NotificationsPage extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class NotificationsPageState extends State<NotificationsPage> {
 
   NotificationsPageState() {
 
-    listen = audioPlayer.onAudioPositionChanged.listen(onAudioPositionChanged);
+    //listen = audioPlayer.onAudioPositionChanged.listen(onAudioPositionChanged);
     //pState = audioPlayer.onPlayerStateChanged.listen(onAudioPlayerStateChanged);
 
     Repository.getAllPodcasts().then((e) {
@@ -82,9 +83,8 @@ class NotificationsPageState extends State<NotificationsPage> {
 
   Future<void> onSelectedPodcast(PodcastModel p) async {
     await audioPlayer.stop();
-    listen.cancel();
     audioPlayer = AudioPlayer();
-    listen = audioPlayer.onAudioPositionChanged.listen(onAudioPositionChanged);
+    audioPlayer.positionHandler = onAudioPositionChanged;
     
     setState(() {
       
@@ -120,8 +120,6 @@ class NotificationsPageState extends State<NotificationsPage> {
   @override
   Future<void> deactivate() async {
     await audioPlayer.stop();
-    listen.cancel();
-    //pState.cancel();
     super.deactivate();
   }
 
@@ -160,11 +158,13 @@ class NotificationsPageState extends State<NotificationsPage> {
                   GestureDetector(
                     child: Icon(
                       isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled, 
-                      color: Colors.white, size: 50),
+                      color: (selectedPodcast != null ? Colors.white : Colors.grey), size: 50),
                     onTap: () {
-                        setState(() {
-                          playPodcast();                        
-                        });
+                        if (selectedPodcast != null) {
+                          setState(() {
+                            playPodcast();                        
+                          });
+                        }
                     },
                   ),
                   Expanded(
@@ -189,18 +189,18 @@ class NotificationsPageState extends State<NotificationsPage> {
                                   activeColor: Colors.white,
                                   inactiveColor: Colors.white.withOpacity(0.2),
                                   onChanged: (val) {
-                                    /*setState(() {
+                                    setState(() {
                                         sliderPosition = val;                                  
-                                    });*/
+                                    });
                                   },
                                   onChangeStart: (val) {
-                                    //audioPlayer.pause();
+                                    isPlaying = false;
+                                    audioPlayer.pause();
                                   },
                                   onChangeEnd: (val) {
-                                    /*isPlaying = true;
-                                    audioPlayer.seek(val);
-                                    audioPlayer.play(selectedPodcast.path);
-                                    */
+                                    isPlaying = true;
+                                    audioPlayer.seek(Duration(seconds: val.toInt()));
+                                    audioPlayer.resume();
                                   },
                                   min: 0,
                                   max: maxSliderValue,
