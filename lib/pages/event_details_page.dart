@@ -39,7 +39,7 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
       )
     );
 
-    mapController.animateCamera(CameraUpdate.scrollBy(-200.0,-100.0));
+    //mapController.animateCamera(CameraUpdate.scrollBy(-200.0,-100.0));
   }
 
   @override

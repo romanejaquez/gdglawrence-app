@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gdg_lawrence/models/contact_model.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/models/homescreen_model.dart';
 import 'package:gdg_lawrence/models/member_model.dart';
 import 'package:gdg_lawrence/models/menuitem_model.dart';
 import 'package:gdg_lawrence/models/podcast_model.dart';
 import 'package:gdg_lawrence/models/resource_model.dart';
+import 'package:gdg_lawrence/models/teammember_model.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,15 +29,18 @@ class Repository {
     );
   }
 
-  static Future<List<EventModel>> getAllEvents() async {
+  static Future<EventsPackageModel> getAllEvents() async {
 
-    var allEvents = List<EventModel>();
-    var url = 'https://api.meetup.com/GDG-Lawrence/events?&sign=true&photo-host=public&page=20&desc=true';
+    var pastEvents = List<EventModel>();
+    var upcomingEvents = List<EventModel>();
+
+    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getEvents';
     var response = await http.get(url);
-    List responseJSON = jsonDecode(response.body);
-    allEvents = createEvents(responseJSON);
+    dynamic responseJSON = jsonDecode(response.body);
+    pastEvents = createEvents(responseJSON["pastEvents"]);
+    upcomingEvents = createEvents(responseJSON["upcomingEvents"]);
 
-    return allEvents;
+    return EventsPackageModel(pastEvents: pastEvents, upcomingEvents: upcomingEvents);
   }
 
   static Future<List<ResourceModel>> getAllResources() async {
@@ -47,6 +52,28 @@ class Repository {
     allResources = createResources(responseJSON);
 
     return allResources;
+  }
+
+  static Future<List<TeamMember>> getAllTeamMembers() async {
+
+    var allTeamMembers = List<TeamMember>();
+    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getTeamMembers';
+    var response = await http.get(url);
+    List responseJSON = jsonDecode(response.body);
+    allTeamMembers = createTeamMembers(responseJSON);
+
+    return allTeamMembers;
+  }
+
+  static Future<List<ContactModel>> getAllContactInfo() async {
+
+    var allContacts = List<ContactModel>();
+    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getContactInfo';
+    var response = await http.get(url);
+    List responseJSON = jsonDecode(response.body);
+    allContacts = createContacts(responseJSON);
+
+    return allContacts;
   }
 
   static Future<List<MemberModel>> getAllMembers() async {
@@ -90,6 +117,40 @@ class Repository {
     return members;
   }
 
+  static List<TeamSocialLink> createSocialLinksForMember(List data) {
+    var socialLinks = List<TeamSocialLink>();
+
+    for(var i = 0; i < data.length; i++) {
+      var s = data[i];
+      socialLinks.add(TeamSocialLink(
+        type: s["type"],
+        value: s["value"]
+      ));
+    }
+
+    return socialLinks;
+  }
+
+  static List<TeamMember> createTeamMembers(List data) {
+    var members = List<TeamMember>();
+
+    for(var i = 0; i < data.length; i++) {
+      var m = data[i];
+      members.add(
+        TeamMember(
+          name: m["name"],
+          title: m["title"],
+          subTitle: m["subTitle"],
+          bio: m["bio"],
+          imgPath: m["imgPath"],
+          contactInfo: createSocialLinksForMember(m["contact"])
+        )
+      );
+    }
+
+    return members;
+  }
+
   static List<ResourceModel> createResources(List data) {
     var resources = List<ResourceModel>();
 
@@ -105,6 +166,23 @@ class Repository {
     }
 
     return resources;
+  }
+
+  static List<ContactModel> createContacts(List data) {
+    var contacts = List<ContactModel>();
+
+    for(var i = 0; i < data.length; i++) {
+      contacts.add(
+        ContactModel(
+          contactName: data[i]["contactName"],
+          details: data[i]["details"],
+          url: data[i]["url"],
+          imgPath: data[i]["imgPath"],
+        )
+      );
+    }
+
+    return contacts;
   }
 
   static List<EventModel> createEvents(List data) {
@@ -162,7 +240,7 @@ class Repository {
 
     menuItems.add(
       MenuItemModel(
-        menuColor: Utils.googleRed,
+        menuColor: Colors.red,
         menuIcon: Icons.date_range,
         subLabel: "${data.eventsCount} Events",
         menuLabel: "Upcoming / Past Events",

@@ -15,9 +15,10 @@ class EventsPage extends StatefulWidget {
 
 class EventsPageState extends State<EventsPage> {
 
-  List<EventModel> events;
-  List<Widget> eventWidgets;
-  List<Widget> pastEventWidgets = List<Widget>();
+  List<EventModel> pastEvents;
+  List<EventModel> upcomingEvents;
+  List<Widget> upcomingEventWidgets;
+  List<Widget> pastEventWidgets;
 
   @override
   void initState() {
@@ -25,14 +26,43 @@ class EventsPageState extends State<EventsPage> {
 
     Repository.getAllEvents().then((e) {
       setState(() {
-          events = e;
-          eventWidgets = List<Widget>();
+          pastEvents = e.pastEvents;
+          upcomingEvents = e.upcomingEvents;
+
+          upcomingEventWidgets = List<Widget>();
+          pastEventWidgets = List<Widget>();
           
-          for(var i = 0; i < events.length; i++) {
-            eventWidgets.add(Factory.getEventWidget(events[i], onSelectedEvent));
+          for(var i = 0; i < pastEvents.length; i++) {
+            pastEventWidgets.add(Factory.getEventWidget(pastEvents[i], onSelectedEvent));
+          }
+
+          for(var i = 0; i < upcomingEvents.length; i++) {
+            upcomingEventWidgets.add(Factory.getEventWidget(upcomingEvents[i], onSelectedEvent));
           }
       });
     });
+  }
+
+  List<Widget> getNoEventMessage(String msg) {
+    return <Widget>[
+          Container(
+            padding: EdgeInsets.all(50),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Icon(Icons.date_range, color: Colors.grey),
+                  ),
+                  Text(msg,
+                    style: TextStyle(color: Colors.grey)
+                  )
+                ],
+              ),
+            ),
+          )
+        ];
   }
 
   void onSelectedEvent(EventModel event) {
@@ -60,31 +90,13 @@ class EventsPageState extends State<EventsPage> {
                 ],
               ),
           ),
-          body: events != null ? TabBarView(
+          body: (pastEvents != null || upcomingEvents != null) ? TabBarView(
             children: <Widget>[
               ListView(
-                children: eventWidgets
+                children: (upcomingEventWidgets != null && upcomingEventWidgets.length > 0) ? upcomingEventWidgets : getNoEventMessage("No Upcoming Events")
               ),
               ListView(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(50),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Icon(Icons.date_range, color: Colors.grey),
-                          ),
-                          Text("No Upcoming Events",
-                            style: TextStyle(color: Colors.grey)
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ]
+                children: (pastEventWidgets != null && pastEventWidgets.length > 0) ? pastEventWidgets : getNoEventMessage("No Past Events")
               )
             ],
           ) : Center(

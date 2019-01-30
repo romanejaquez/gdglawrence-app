@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/models/homescreen_model.dart';
+import 'package:gdg_lawrence/pages/drawer_page.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,15 +14,14 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       drawer: Drawer(
         child: Container(
-          color: Colors.white,
-          padding: EdgeInsets.all(30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 30),
+                padding: EdgeInsets.only(top: 60, bottom: 30, left: 30),
                 child: Image.asset('assets/gdg_just_text.png', width: 100),
-              )
+              ),
+              DrawerContent()
             ],
           ),
         ),
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(45),
+              padding: EdgeInsets.all(35),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

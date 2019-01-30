@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:gdg_lawrence/models/contact_model.dart';
 import 'package:gdg_lawrence/models/resource_model.dart';
+import 'package:gdg_lawrence/models/teammember_model.dart';
 import 'package:intl/intl.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/models/member_model.dart';
@@ -14,6 +16,115 @@ import 'package:gdg_lawrence/pages/resources_page.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 
 class Factory {
+
+  static Widget getTeamMemberCard(TeamMember model, Function memberContactInfoTapped) {
+    return Container(
+        color: Colors.grey[300],
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
+              padding: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ClipOval(child: Image.network(model.imgPath, width: 80, height: 80)),
+                  Container(
+                    width: 300,
+                    padding: EdgeInsets.only(top: 10, bottom: 20),
+                    child: Column(
+                      children: <Widget>[
+                        Text(model.name,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+                        ),
+                        Text(model.title,
+                          style: TextStyle(color: Colors.grey)
+                        ),
+                        Text(model.subTitle,
+                          style: TextStyle(color: Utils.googleGreen)
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text(model.bio,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: Factory.getMemberContactPieces(model.contactInfo, memberContactInfoTapped))
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+          
+  }
+
+  static List<Widget> getMemberContactPieces(List<TeamSocialLink> socialMediaLinks, Function onContactInfoTapped) {
+    var contactWidgets = List<Widget>();
+
+    for(var i = 0; i < socialMediaLinks.length; i++) {
+
+      var mediaLink = socialMediaLinks[i];
+
+      contactWidgets.add(GestureDetector(
+        onTap: () {
+          onContactInfoTapped(mediaLink);
+        },
+        child: Image.asset('assets/contact_icons_${mediaLink.type}.png', width: 40, height: 40)
+      ));
+    }
+    return contactWidgets;
+  }
+
+  static Widget getContactInfoRow(ContactModel currentModel, Function onContactInfoTapped) {
+    return InkWell(
+        onTap: () {
+          onContactInfoTapped(currentModel);
+        },
+        child: Column(
+          children: <Widget>[
+            Container(
+              color: Colors.transparent,
+              padding: EdgeInsets.all(20),
+              child: Row(
+                children: <Widget>[
+                  Image.network(currentModel.imgPath, width: 60, height: 60),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(currentModel.contactName, 
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)
+                        ),
+                        Text(currentModel.details, 
+                          style: TextStyle(color: Colors.blueAccent)
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
+            ),
+            Divider(
+            color: Colors.grey[300],
+            height: 1,
+          )
+        ])
+      );
+  }
 
   static Widget getMemberWidget(MemberModel member) {
     return InkWell(

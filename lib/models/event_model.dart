@@ -29,3 +29,13 @@ class EventModel {
     this.link
   });
 }
+
+class EventsPackageModel {
+  List<EventModel> pastEvents;
+  List<EventModel> upcomingEvents;
+
+  EventsPackageModel({
+    this.pastEvents,
+    this.upcomingEvents
+  });
+}
