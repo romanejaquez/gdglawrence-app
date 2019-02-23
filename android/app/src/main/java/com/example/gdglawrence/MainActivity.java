@@ -1,4 +1,4 @@
-package com.example.gdglawrence;
+package com.drcoderz.gdglawrence;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import 'package:gdg_lawrence/pages/contactus_page.dart';
 import 'package:gdg_lawrence/pages/team_page.dart';
 
@@ -6,6 +7,11 @@ class DrawerContent extends StatelessWidget {
   
   @override 
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
     return Container(
       child: Column(
         children: <Widget>[

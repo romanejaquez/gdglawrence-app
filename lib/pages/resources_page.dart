@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gdg_lawrence/controls/spinning_control.dart';
 import 'package:gdg_lawrence/models/resource_model.dart';
 import 'package:gdg_lawrence/shared/factory.dart';
@@ -40,6 +41,12 @@ class ResourcesPageState extends State<ResourcesPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Utils.googleGreen,

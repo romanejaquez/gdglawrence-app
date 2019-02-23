@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gdg_lawrence/controls/spinning_control.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/pages/event_details_page.dart';
@@ -73,6 +74,11 @@ class EventsPageState extends State<EventsPage> {
   
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
     return DefaultTabController(
         length: 2,
         child: Scaffold(

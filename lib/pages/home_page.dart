@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gdg_lawrence/models/homescreen_model.dart';
 import 'package:gdg_lawrence/pages/drawer_page.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
@@ -11,6 +12,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
     return Scaffold(
       drawer: Drawer(
         child: Container(

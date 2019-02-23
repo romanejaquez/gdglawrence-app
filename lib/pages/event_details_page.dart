@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 import 'package:html/parser.dart' show parse;
@@ -44,6 +45,11 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Utils.googleRed,

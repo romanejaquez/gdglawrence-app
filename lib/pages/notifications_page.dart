@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:gdg_lawrence/controls/spinning_control.dart';
@@ -125,6 +126,12 @@ class NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

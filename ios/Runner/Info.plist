@@ -9,6 +9,8 @@
 	</dict>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>CFBundleDisplayName</key>
+	<string>GDG Lawrence</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

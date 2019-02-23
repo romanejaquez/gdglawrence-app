@@ -13,12 +13,12 @@ import 'package:gdg_lawrence/shared/utils.dart';
 import 'package:http/http.dart' as http;
 
 class Repository {
-  
-  static const String API_KEY = '2554255606c801d137037537f31539';
+
+  static const String API_URL = "https://us-central1-gdglawrence.cloudfunctions.net/";
 
   static Future<HomeScreenModel> getHomeScreenData() async {
 
-    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getHomeScreenData';
+    var url = API_URL + 'getHomeScreenData';
     var response = await http.get(url);
     dynamic responseJSON = jsonDecode(response.body);
     return HomeScreenModel(
@@ -34,7 +34,7 @@ class Repository {
     var pastEvents = List<EventModel>();
     var upcomingEvents = List<EventModel>();
 
-    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getEvents';
+    var url = API_URL + 'getEvents';
     var response = await http.get(url);
     dynamic responseJSON = jsonDecode(response.body);
     pastEvents = createEvents(responseJSON["pastEvents"]);
@@ -46,7 +46,7 @@ class Repository {
   static Future<List<ResourceModel>> getAllResources() async {
 
     var allResources = List<ResourceModel>();
-    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getResources';
+    var url = API_URL + 'getResources';
     var response = await http.get(url);
     List responseJSON = jsonDecode(response.body);
     allResources = createResources(responseJSON);
@@ -57,7 +57,7 @@ class Repository {
   static Future<List<TeamMember>> getAllTeamMembers() async {
 
     var allTeamMembers = List<TeamMember>();
-    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getTeamMembers';
+    var url = API_URL + 'getTeamMembers';
     var response = await http.get(url);
     List responseJSON = jsonDecode(response.body);
     allTeamMembers = createTeamMembers(responseJSON);
@@ -68,7 +68,7 @@ class Repository {
   static Future<List<ContactModel>> getAllContactInfo() async {
 
     var allContacts = List<ContactModel>();
-    var url = 'https://us-central1-gdglawrence.cloudfunctions.net/getContactInfo';
+    var url = API_URL + 'getContactInfo';
     var response = await http.get(url);
     List responseJSON = jsonDecode(response.body);
     allContacts = createContacts(responseJSON);
@@ -79,7 +79,7 @@ class Repository {
   static Future<List<MemberModel>> getAllMembers() async {
 
     var allMembers = List<MemberModel>();
-    var url = 'https://api.meetup.com/GDG-Lawrence/members?&sign=true&photo-host=public&page=20?key=${API_KEY}';
+    var url = API_URL + 'getMembers';
     var response = await http.get(url);
     List responseJSON = jsonDecode(response.body);
     allMembers = createMembers(responseJSON);
@@ -90,10 +90,10 @@ class Repository {
   static Future<List<PodcastModel>> getAllPodcasts() async {
 
     var allPodcasts = List<PodcastModel>();
-    var url = 'http://api.drcoderz.com/flutter/gdglawrence/minipodcasts/podcasts.php';
+    var url = API_URL + 'getPodcasts';
     var response = await http.get(url);
-    List responseJSON = jsonDecode(response.body);
-    allPodcasts = createPodcasts(responseJSON);
+    dynamic responseJSON = jsonDecode(response.body);
+    allPodcasts = createPodcasts(responseJSON["podcasts"]);
 
     return allPodcasts;
   }

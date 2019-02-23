@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gdg_lawrence/controls/spinning_control.dart';
 import 'package:gdg_lawrence/models/homescreen_model.dart';
 import 'package:gdg_lawrence/pages/home_page.dart';
@@ -10,6 +11,11 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
     Future.delayed(const Duration(milliseconds: 1000), () {
       
       Repository.getHomeScreenData().then((HomeScreenModel homeData) {
