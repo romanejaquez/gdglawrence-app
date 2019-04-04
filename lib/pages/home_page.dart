@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.asset('assets/gdg_logo.png', width: 50),
+                Image.asset('assets/gdg_logo.png', width: 100),
                 Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Image.asset('assets/gdg_just_text.png', width: 120),

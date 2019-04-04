@@ -32,14 +32,23 @@ class SplashPage extends StatelessWidget {
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset('assets/gdg_logo.png', width: 120.0),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Image.asset('assets/gdg_just_text.png', width: 150.0)
+                Container(
+                  margin:EdgeInsets.only(top: 100),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                    Image.asset('assets/gdg_logo.png', width: 120.0),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Image.asset('assets/gdg_just_text.png', width: 150.0)
+                    )
+                  ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 50),
+                  padding: EdgeInsets.only(top: 30),
                   child: SpinningControl(
                     color1: Utils.googleBlue,
                     color2: Utils.googleGreen,
