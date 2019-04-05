@@ -34,11 +34,11 @@ class EventsPageState extends State<EventsPage> {
           pastEventWidgets = List<Widget>();
           
           for(var i = 0; i < pastEvents.length; i++) {
-            pastEventWidgets.add(Factory.getEventWidget(pastEvents[i], onSelectedEvent));
+            pastEventWidgets.add(Factory.getEventWidget(pastEvents[i], false, onSelectedEvent));
           }
 
           for(var i = 0; i < upcomingEvents.length; i++) {
-            upcomingEventWidgets.add(Factory.getEventWidget(upcomingEvents[i], onSelectedEvent));
+            upcomingEventWidgets.add(Factory.getEventWidget(upcomingEvents[i], true, onSelectedEvent));
           }
       });
     });
@@ -66,10 +66,10 @@ class EventsPageState extends State<EventsPage> {
         ];
   }
 
-  void onSelectedEvent(EventModel event) {
+  void onSelectedEvent(EventModel event, bool isFuture) {
     Navigator.push(context, 
           MaterialPageRoute(
-            builder: (context) => EventDetailsPage(event: event)));
+            builder: (context) => EventDetailsPage(event: event, isFuture: isFuture)));
   }
   
   @override

@@ -262,11 +262,11 @@ class Factory {
     );
   }
 
-  static Widget getEventWidget(EventModel event, Function eventCallback) {
+  static Widget getEventWidget(EventModel event, bool isFuture, Function eventCallback) {
 
     return InkWell(
       onTap: () {
-        eventCallback(event);
+        eventCallback(event, isFuture);
       },
       child: Column(
         children: <Widget>[
@@ -290,7 +290,7 @@ class Factory {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        width: 300,
+                        width: 250,
                         child: Text(event.eventName,
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                         ),
@@ -301,7 +301,7 @@ class Factory {
                       Text(DateFormat.jm().format(DateTime.parse(event.eventDate + ' ' + event.eventTime)),
                         style: TextStyle(color: Colors.grey)
                       ),
-                      Text("${event.attendeeCount} people going",
+                      Text("${event.attendeeCount} people " + (isFuture ? "going" : "attended"),
                         style: TextStyle(color: Utils.googleRed)
                       )
                     ],

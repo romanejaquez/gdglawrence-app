@@ -4,14 +4,15 @@ import 'package:gdg_lawrence/models/event_model.dart';
 import 'package:gdg_lawrence/shared/utils.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:intl/intl.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class EventDetailsPage extends StatefulWidget {
   EventModel event;
+  bool isFuture;
 
-  EventDetailsPage({this.event});
+  EventDetailsPage({this.event, this.isFuture});
   @override
   State<StatefulWidget> createState() {
     return EventDetailsStatePage(event: event);
@@ -24,24 +25,8 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
   var someShit = parse("<b>Hello world!!!</b>");
   static TextSpan span = TextSpan(text: "asdfds", style: TextStyle(color: Colors.black));
   RichText richContent = RichText(text: span);
-
-  GoogleMapController mapController;
-  final LatLng _center = const LatLng(42.71071243286133, -71.16216278076172);
   
   EventDetailsStatePage({this.event});
-
-  void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-    mapController.addMarker(
-      MarkerOptions(
-        consumeTapEvents: false,
-        position: _center,
-        icon: BitmapDescriptor.defaultMarker
-      )
-    );
-
-    //mapController.animateCamera(CameraUpdate.scrollBy(-200.0,-100.0));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +36,13 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
       ]);
       
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: widget.isFuture ? FloatingActionButton(
         backgroundColor: Utils.googleRed,
         child: Icon(Icons.share, color: Colors.white),
         onPressed: () {
           Share.share(event.link);
         },
-      ),
+      ) : null,
       appBar: AppBar(
         title: Text('Event Details'),
         backgroundColor: Utils.googleRed,
@@ -90,7 +75,7 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
                       Text(DateFormat.jm().format(DateTime.parse(event.eventDate + ' ' + event.eventTime)),
                         style: TextStyle(color: Colors.grey)
                       ),
-                      Text("${event.attendeeCount} people going",
+                      Text("${event.attendeeCount} people " + (widget.isFuture ? "going" : "attended"),
                         style: TextStyle(color: Utils.googleRed)
                       )
                     ],
@@ -119,46 +104,57 @@ class EventDetailsStatePage extends State<EventDetailsPage> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 10),
-              child: Container(
-                height: 200,
-                child: GoogleMap(
-                  onMapCreated: onMapCreated,
-                  options: GoogleMapOptions(
-                    trackCameraPosition: true,
-                    cameraPosition: CameraPosition(
-                      bearing: 270,
-                      target: _center,
-                      zoom: 15.0,
-                    )
-                  ),
-                ),
-              ),
+            Divider(
+              color: Colors.grey,
+              height: 15,
             ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: RaisedButton(
-                color: Utils.googleRed,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            Container(
+              child: Column(
+                children: <Widget>[
+                  widget.isFuture ? Column(
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Image.asset('assets/meetup_logo_white.png', width: 40, height: 40)
-                      ),
-                      Text("Go to Meetup Page To Register",
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
+                    Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 5),
+                    child: Text("Share QRCode Below", style:TextStyle(color: Colors.grey, fontSize: 11)),
                   ),
-                ),
-                onPressed: () async {
-                  await launch(event.link);
-                },
-              ),
+                  Padding(padding: EdgeInsets.all(20), 
+                  child: 
+                    Container(padding: EdgeInsets.all(5),
+                    child: QrImage(data:event.link, size: 150),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(color: Colors.grey[300], blurRadius: 10, offset: Offset.zero)
+                        ]
+                      ),
+                      )
+                    )
+                  ]) : Center(child: Text('This event has passed already.', style:TextStyle(fontSize: 14, color: Colors.grey))),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: RaisedButton(
+                      color: widget.isFuture ? Utils.googleRed : Colors.grey,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Image.asset('assets/meetup_logo_white.png', width: 40, height: 40)
+                            ),
+                            Text(widget.isFuture ? "Go to Meetup Page To Register" : "View this past event",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                      onPressed: () async {
+                        await launch(event.link);
+                      },
+                    ),
+                  )]
+              )
             )
           ],
         ),
